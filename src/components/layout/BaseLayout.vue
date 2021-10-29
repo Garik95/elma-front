@@ -2,7 +2,7 @@
 	<div>
 		<top-bar></top-bar>
 		<v-row>
-			<v-col cols="2">
+			<v-col cols="3">
 				<tree />
 			</v-col>
 			<v-col>
@@ -22,3 +22,7 @@
 		},
 	};
 </script>
+<style>
+	* {
+	}
+</style>

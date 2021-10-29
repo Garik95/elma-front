@@ -1,7 +1,7 @@
 <template>
 	<header>
 		<nav>
-			<h1><router-link to="/main">ELMA</router-link></h1>
+			<h1><router-link to="/main/1">Name</router-link></h1>
 			<ul>
 				<li>
 					<router-link to="/main">Admin</router-link>

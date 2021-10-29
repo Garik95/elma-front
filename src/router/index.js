@@ -1,7 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import mainView from "../views/main.vue";
+import MainPage from "../views/MainPage.vue";
 import BaseLayout from "../components/layout/BaseLayout.vue";
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch((err) => err);
+};
 
 Vue.use(VueRouter);
 
@@ -11,8 +16,9 @@ const routes = [
 		component: BaseLayout,
 		children: [
 			{
-				path: "/main",
-				component: mainView,
+				path: "/main/:id",
+				name: "main",
+				component: MainPage,
 			},
 		],
 	},
