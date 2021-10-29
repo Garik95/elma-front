@@ -1,7 +1,7 @@
 <template>
 	<header>
 		<nav>
-			<h1><router-link to="/main/1">Name</router-link></h1>
+			<h1><router-link to="/main/1">Logo</router-link></h1>
 			<ul>
 				<li>
 					<router-link to="/main">Admin</router-link>
@@ -16,7 +16,7 @@
 	header {
 		width: 100%;
 		height: 4rem;
-		background-color: #64b5f6;
+		background-color: #81d4fa;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -27,13 +27,13 @@
 		color: #263238;
 		display: inline-block;
 		padding: 0.75rem 1.5rem;
-		border: 1px solid black;
+		border: 0px solid black;
 	}
 
 	a:active,
 	a:hover,
 	a.router-link-active {
-		border: 1px solid gainsboro;
+		border: 0px solid gainsboro;
 	}
 
 	h1 {
