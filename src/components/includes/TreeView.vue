@@ -1,7 +1,7 @@
 <template>
 	<v-container class="height: 30px, pa-0">
 		<v-card flat class="height: 100% width: 100%">
-			<v-card-title class="black--text text-h6, clr"> Selelct</v-card-title>
+			<v-card-title class="black--text text-h6, clr"> Documents</v-card-title>
 			<v-treeview
 				class="treeview-item, clr"
 				v-model="tree"
@@ -29,9 +29,14 @@
 					<v-icon @click="push(item.id)"> mdi-chevron-right </v-icon>
 				</template>
 				<template slot="label" slot-scope="{ item }">
-					<a @click="push(item.id)">{{ item.name + item.id }}</a>
+					<a @click="push(item.id)">{{ item.name }}</a>
 				</template>
 			</v-treeview>
+			<div class="text-center">
+				<v-btn icon color="green" @click="pushItem">
+					<v-icon>mdi-plus</v-icon>
+				</v-btn>
+			</div>
 		</v-card>
 	</v-container>
 </template>
@@ -39,6 +44,7 @@
 <script>
 	export default {
 		data: () => ({
+			count: 1,
 			files: {
 				html: "mdi-language-html5",
 				js: "mdi-nodejs",
@@ -52,46 +58,49 @@
 			tree: [],
 			active: [],
 			items: [
-				{
-					id: 1,
-					name: "IPK Folder",
-					children: [
-						{
-							id: 2,
-							name: "0199",
-							//file: "png",
-							children: [{ id: 123, name: "dep1" }],
-						},
-
-						{
-							id: 3,
-							name: "0283",
-							// file: "png",
-						},
-						{
-							id: 4,
-							name: "index.html",
-							// file: "html",
-						},
-					],
-				},
-				{
-					id: 3,
-					name: 222,
-					children: [
-						{
-							id: 5,
-							name: "exe",
-							file: "pdf",
-						},
-					],
-				},
+				// {
+				// 	id: 1,
+				// 	name: "IPK Folder",
+				// 	children: [
+				// 		{
+				// 			id: 2,
+				// 			name: "0199",
+				// 			//file: "png",
+				// 			children: [{ id: 123, name: "dep1" }],
+				// 		},
+				// 		{
+				// 			id: 3,
+				// 			name: "0283",
+				// 			// file: "png",
+				// 		},
+				// 		{
+				// 			id: 4,
+				// 			name: "index.html",
+				// 			// file: "html",
+				// 		},
+				// 	],
+				// },
+				// {
+				// 	id: 3,
+				// 	name: 222,
+				// 	children: [
+				// 		{
+				// 			id: 5,
+				// 			name: "exe",
+				// 			file: "pdf",
+				// 		},
+				// 	],
+				// },
 			],
 		}),
 
 		methods: {
 			push(id) {
 				this.$router.push({ name: "main", params: { id } });
+			},
+			pushItem() {
+				this.items.push({ id: this.count, name: "Folder #" + this.count });
+				this.count++;
 			},
 		},
 	};

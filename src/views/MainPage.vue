@@ -1,14 +1,13 @@
 <template>
 	<v-responsive>
 		<v-container dark>
-			<v-card flat class="pa-0, height: 100%" max-width="100%">
-				<v-card-title class="blue lighten-5"> Result </v-card-title>
+			<v-card-title class="blue lighten-5"> Result </v-card-title>
 
-				<v-col class="d-flex- text-center">
-					<div class="d-flex-text-center">OUTPUT</div>
-					{{ $route.params.id }}
-				</v-col>
-			</v-card>
+			<v-col class="d-flex- text-center">
+				<div class="d-flex-text-center">OUTPUT</div>
+				{{ $route.params.id }}
+			</v-col>
+
 			<v-container fluid style="margin: 0px; padding: 0px; width: 100%">
 				<v-layout>
 					<div class="container">
