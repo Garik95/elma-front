@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import MainPage from "../views/MainPage.vue";
+import FolderActionPage from "../views/FolderActionPage.vue";
 import BaseLayout from "../components/layout/BaseLayout.vue";
 
 const originalPush = VueRouter.prototype.push;
@@ -16,9 +16,9 @@ const routes = [
 		component: BaseLayout,
 		children: [
 			{
-				path: "/main/:id",
-				name: "main",
-				component: MainPage,
+				path: "/folder/:id",
+				name: "folder",
+				component: FolderActionPage,
 			},
 		],
 	},

@@ -1,0 +1,4 @@
+{
+    "axios_url":"http://192.168.1.2:6767/api/v1/",
+    "content_server_url":"http://192.168.1.2:6767/"
+}
