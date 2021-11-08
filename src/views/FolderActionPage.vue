@@ -1,5 +1,6 @@
 <template>
   <v-responsive>
+    <v-breadcrumbs :items="bItems" divider="-"></v-breadcrumbs>
     <v-container>
       <v-overlay :absolute="true" :value="overlay">
         <v-progress-circular indeterminate size="32"></v-progress-circular>
@@ -61,22 +62,22 @@
         </v-col>
         <v-col cols="6"
           >Файлы
-          <div v-for="file in files" :key="file._id">
+          <div v-for="f in files" :key="f._id">
             <v-list-item>
               <v-list-item-icon>
-                <v-btn icon color="red" v-if="file.ext == '.pdf'">
+                <v-btn icon color="red" v-if="f.ext == '.pdf'">
                   <v-icon>mdi-file-pdf-box</v-icon>
                 </v-btn>
                 <v-btn
                   icon
                   color="info"
-                  v-if="file.ext == '.doc' || file.ext == '.docx'"
+                  v-if="f.ext == '.doc' || f.ext == '.docx'"
                 >
                   <v-icon>mdi-microsoft-word</v-icon>
                 </v-btn>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ file.originalName }}</v-list-item-title>
+                <v-list-item-title>{{ f.originalName }}</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-menu offset-y>
@@ -87,12 +88,16 @@
                   </template>
                   <v-list>
                     <v-list-item link>
-                      <v-list-item-title><a v-bind:href="menuClick(file,1)">Скачать</a></v-list-item-title>
+                      <v-list-item-title
+                        ><a v-bind:href="menuClick(f, 1)"
+                          >Скачать</a
+                        ></v-list-item-title
+                      >
                     </v-list-item>
-                    <v-list-item link @click="menuClick(file,2)">
+                    <v-list-item link @click="menuClick(f, 2)">
                       <v-list-item-title>Заменить</v-list-item-title>
                     </v-list-item>
-                    <v-list-item link @click="menuClick(file,3)">
+                    <v-list-item link @click="menuClick(f, 3)">
                       <v-list-item-title>Удалить</v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -154,14 +159,10 @@
           <v-card-title class="text-h5"> Загрузить файл </v-card-title>
 
           <v-card-text>
-            <v-text-field
-              label="Наименование файла"
-              v-model="file.name"
-            ></v-text-field>
             <v-file-input
               accept=".doc,.docx,.pdf"
               label="Файл"
-              v-model="file.file"
+              v-model="file"
               show-size
             ></v-file-input>
           </v-card-text>
@@ -210,17 +211,14 @@
 <script>
 import axios from "axios";
 import path from "path";
-import conf from "../../conf.json"
+import conf from "../../conf.json";
 export default {
   data: () => ({
     folder: null,
     childs: [],
     onEdit: false,
     info: false,
-    file: {
-      name: null,
-      file: null,
-    },
+    file: null,
     files: [],
     fileDialog: false,
     overlay: true,
@@ -228,23 +226,42 @@ export default {
     confirmDialog: false,
     newFolderName: "",
     parent: "",
+    init: { text: "Home", href: "/" },
+    bItems: [],
   }),
   created: function () {
     this.getFolder();
+    this.getBread();
+  },
+  mounted: function () {
+    this.bItems = [this.init];
+    // this.items = [this.init];
   },
   watch: {
     $route() {
       this.getFolder();
+      this.getBread();
     },
   },
   methods: {
-    menuClick(file,action){
-      console.log(file);
-      switch(action){
+    menuClick(file, action) {
+      switch (action) {
         case 1: {
-          return conf.content_server_url + file.name
+          return conf.content_server_url + file.name;
         }
       }
+    },
+    getBread() {
+      this.bItems = [this.init];
+      axios
+        .get("/Folder/" + this.$route.params.id + "/parent")
+        .then((response) => {
+          response.data.forEach((item) => {
+            item.href = "/folder/" + item.href;
+          });
+          this.bItems = this.bItems.concat(response.data);
+          this.overlay = false;
+        });
     },
     getFolder() {
       this.overlay = true;
@@ -257,7 +274,7 @@ export default {
             .get("Folder/" + this.$route.params.id + "/child")
             .then((response) => {
               this.childs = response.data;
-              this.overlay = false;
+              // this.overlay = false;
             })
             .catch((err) => {
               console.log(err);
@@ -312,13 +329,17 @@ export default {
     fileInputDialog(action) {
       switch (action) {
         case "submit": {
-          console.log(this.file);
           var formData = new FormData();
           formData.append("folder", this.$route.params.id);
-          formData.append("file", this.file.file);
-          formData.append("name", this.file.name);
+          formData.append("file", this.file);
           axios.post("File", formData).then((response) => {
-            console.log(response.data);
+            this.files.push(response.data);
+            this.files.forEach((file) => {
+              file.ext = path.extname(file.originalName);
+            });
+            this.$forceUpdate();
+            this.file = null;
+            this.fileDialog = false;
           });
           break;
         }

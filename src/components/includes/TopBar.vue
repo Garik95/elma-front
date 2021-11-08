@@ -1,74 +1,111 @@
 <template>
-	<header>
-		<nav>
-			<h1><router-link to="/main/1">Logo</router-link></h1>
-			<ul>
-				<li>
-					<router-link to="/main">Admin</router-link>
-				</li>
-				<li><router-link to="/">Exit</router-link></li>
-			</ul>
-		</nav>
-	</header>
+  <header>
+    <nav>
+      <h1><router-link to="/main/1">Logo</router-link></h1>
+      <v-spacer></v-spacer>
+      <v-text-field
+        solo
+        dense
+        prepend-icon="mdi-magnify"
+        :rules="rules"
+        class="my-3"
+        @input="getResults"
+        v-model="search"
+      >
+        Search document
+      </v-text-field>
+      <ul>
+        <li>
+          <router-link to="/main">Admin</router-link>
+        </li>
+        <li><router-link to="/">Exit</router-link></li>
+      </ul>
+    </nav>
+  </header>
 </template>
+<script>
+import axios from "axios";
+export default {
+  data: () => ({
+    rules: [(value) => (value || "").length >= 3 || "Min 3 characters"],
+    search: "",
+  }),
+  methods: {
+    getResults() {
+      if (this.search.length >= 3) {
+        // alert(this.search);
+        axios
+          .get("File/", {
+            params: {
+              searchTerm: this.search,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+          });
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
-	header {
-		width: 100%;
-		height: 4rem;
-		background-color: #81d4fa;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+header {
+  width: 100%;
+  height: 4rem;
+  background-color: #81d4fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-	header a {
-		text-decoration: none;
-		color: #263238;
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		border: 0px solid black;
-	}
+header a {
+  text-decoration: none;
+  color: #263238;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 0px solid black;
+}
 
-	a:active,
-	a:hover,
-	a.router-link-active {
-		border: 0px solid gainsboro;
-	}
+a:active,
+a:hover,
+a.router-link-active {
+  border: 0px solid gainsboro;
+}
 
-	h1 {
-		margin: 0;
-	}
+h1 {
+  margin: 0;
+}
 
-	h1 a {
-		color: white;
-		margin: 0;
-	}
+h1 a {
+  color: white;
+  margin: 0;
+}
 
-	h1 a:hover,
-	h1 a:active,
-	h1 a.router-link-active {
-		border-color: transparent;
-	}
+h1 a:hover,
+h1 a:active,
+h1 a.router-link-active {
+  border-color: transparent;
+}
 
-	header nav {
-		width: 90%;
-		margin: auto;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
+header nav {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-	header ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-	li {
-		margin: 0 0.5rem;
-	}
+li {
+  margin: 0 0.5rem;
+}
 </style>
