@@ -1,11 +1,11 @@
 <template>
   <v-responsive>
-    <v-breadcrumbs :items="bItems" divider="-"></v-breadcrumbs>
+    <v-breadcrumbs :items="bItems" divider="/"></v-breadcrumbs>
     <v-container>
       <v-overlay :absolute="true" :value="overlay">
         <v-progress-circular indeterminate size="32"></v-progress-circular>
       </v-overlay>
-      <v-card-title class="blue lighten-5">
+      <v-card-title class="light-green lighten-5 mb-5">
         Папка: {{ folder.name }}
         <v-spacer />
         <v-btn icon color="purple" v-if="info == true" @click="info = !info">
@@ -47,14 +47,14 @@
         <v-col cols="6">
           Папки
           <div v-for="child in childs" :key="child._id">
-            <v-list-item>
+            <v-list-item link @click="push(child._id)">
               <v-list-item-icon
                 ><v-btn icon color="orange"
                   ><v-icon>mdi-folder</v-icon></v-btn
                 ></v-list-item-icon
               >
               <v-list-item-content>
-                <v-list-item-title>{{ child.name }}</v-list-item-title>
+                <v-list-item-title>{{ child.name }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
@@ -359,6 +359,12 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    push(id) {
+      this.$router.push({
+        name: "folder",
+        params: { id },
+      });
     },
     renameItem() {
       this.overlay = true;

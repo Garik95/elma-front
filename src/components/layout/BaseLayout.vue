@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<top-bar></top-bar>
-		<v-row>
-			<v-col cols="3">
+		<v-row no-gutters>
+			<v-col cols="3" >
 				<tree />
 			</v-col>
 			<v-col>

@@ -1,34 +1,97 @@
 <template>
   <header>
-    <nav>
-      <h1><router-link to="/main/1">Logo</router-link></h1>
+    <nav class="navigation">
+      <router-link to="/">
+        <img class="logo" :src="require('../../assets/logo_ru.png')">
+      </router-link>
       <v-spacer></v-spacer>
-      <v-text-field
-        solo
-        dense
-        prepend-icon="mdi-magnify"
-        :rules="rules"
-        class="my-3"
-        @input="getResults"
-        v-model="search"
-      >
-        Search document
-      </v-text-field>
-      <ul>
+
+      <div class="search">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              outlined
+              hide-details
+              dense
+              flat
+              label="Поиск"
+              append-icon="mdi-magnify"
+              class="search"
+              @keypress="getResults"
+              v-model="search"
+              v-bind="attrs"
+              v-on="on"
+              clearable
+            >
+              Search document
+            </v-text-field>
+          </template>
+          <div class="search_list">
+            <v-list>
+              <div v-if="!items.length">
+                <v-list-item>
+                  <span v-if="search.length > 3">
+                    Ничего не найдено
+                  </span>
+                  <span v-else>
+                    Введите название документа (мин 3 символа)
+                  </span>
+                </v-list-item>
+              </div>
+              <v-subheader v-else>Найдено: {{ items.length }}</v-subheader>
+              <v-list-item
+                v-for="(item, index) in items"
+                :key="index"
+                :to="{
+                  name: 'folder',
+                  params: { id: item.folder },
+                }"
+              >
+                <v-icon
+                  class="mr-5"
+                  v-if="path.extname(item.originalName) == '.pdf'"
+                  color="red"
+                >
+                  mdi-file-pdf-box
+                </v-icon>
+                <v-icon
+                  class="mr-5"
+                  color="primary"
+                  v-else-if="
+                    path.extname(item.originalName) == '.doc' ||
+                    path.extname(item.originalName) == '.docx'
+                  "
+                >
+                  mdi-microsoft-word
+                </v-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ item.originalName }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </div>
+        </v-menu>
+      </div>
+      <!-- <ul>
         <li>
           <router-link to="/main">Admin</router-link>
         </li>
         <li><router-link to="/">Exit</router-link></li>
-      </ul>
+      </ul> -->
     </nav>
   </header>
 </template>
 <script>
 import axios from "axios";
+import path from "path";
+
 export default {
   data: () => ({
-    rules: [(value) => (value || "").length >= 3 || "Min 3 characters"],
     search: "",
+    items: [],
+    path: path,
   }),
   methods: {
     getResults() {
@@ -42,6 +105,7 @@ export default {
           })
           .then((response) => {
             console.log(response.data);
+            this.items = response.data;
           });
       }
     },
@@ -49,63 +113,24 @@ export default {
 };
 </script>
 
-<style scoped>
-header {
-  width: 100%;
-  height: 4rem;
-  background-color: #81d4fa;
+<style>
+#app {
+  /* background-image: url('../../assets/double-bubble-outline.png'); */
+}
+.navigation {
   display: flex;
-  justify-content: center;
+  height: 65px;
   align-items: center;
+  padding: 24px;
+  background-color: #fff;
+  border-bottom: 2px solid #eee;
 }
 
-header a {
-  text-decoration: none;
-  color: #263238;
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: 0px solid black;
+.search {
+  width: 400px;
 }
 
-a:active,
-a:hover,
-a.router-link-active {
-  border: 0px solid gainsboro;
-}
-
-h1 {
-  margin: 0;
-}
-
-h1 a {
-  color: white;
-  margin: 0;
-}
-
-h1 a:hover,
-h1 a:active,
-h1 a.router-link-active {
-  border-color: transparent;
-}
-
-header nav {
-  width: 90%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-li {
-  margin: 0 0.5rem;
+.logo {
+  width: 250px;
 }
 </style>

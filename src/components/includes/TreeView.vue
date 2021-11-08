@@ -1,53 +1,51 @@
 <template>
-  <v-container class="height: 30px, pa-0">
-    <v-card flat class="height: 100% width: 100%">
-      <v-overlay :absolute="true" :value="overlay">
-        <v-progress-circular indeterminate size="32"></v-progress-circular>
-      </v-overlay>
-      <v-card-title class="black--text text-h6, clr">
-        Documents
-        <v-spacer />
-        <v-btn icon color="green" x-small @click="getTree()">
-          <v-icon>mdi-refresh</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-treeview
-        class="treeview-item, clr"
-        v-model="tree"
-        :items="items"
-        activatable
-        item-key="name"
-        open-on-click
-        expan-on-hover
-        color="primary"
-        transition
-        dense
-        fluid
-      >
-        <v-divider vertical></v-divider>
+  <div class="sidebar">
+    <v-overlay :absolute="true" :value="overlay">
+      <v-progress-circular indeterminate size="32"></v-progress-circular>
+    </v-overlay>
+    <v-card-title class="black--text text-h6">
+      Документы
+      <v-spacer />
+      <v-btn icon color="green" x-small @click="getTree()">
+        <v-icon>mdi-refresh</v-icon>
+      </v-btn>
+    </v-card-title>
+    <v-treeview
+      class=""
+      v-model="tree"
+      :items="items"
+      activatable
+      item-key="name"
+      open-on-click
+      expan-on-hover
+      color="primary"
+      transition
+      dense
+      fluid
+    >
+      <v-divider vertical></v-divider>
 
-        <template v-slot:prepend="{ item, open }">
-          <v-icon v-if="!item.file">
-            {{ open ? "mdi-folder-open" : "mdi-folder" }}
-          </v-icon>
-          <v-icon v-else>
-            {{ files[item] }}
-          </v-icon>
-        </template>
-        <template v-slot:append="{ item }">
-          <v-icon @click="push(item._id)"> mdi-cog </v-icon>
-        </template>
-        <template slot="label" slot-scope="{ item }">
-          <!-- <a @click="push(item._id)">{{ item.name }}</a> -->
-          {{ item.name }}
-        </template>
-      </v-treeview>
-      <div class="text-center">
-        <v-btn icon color="green" @click="dialogModal('open')">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </div>
-    </v-card>
+      <template v-slot:prepend="{ item, open }">
+        <v-icon color="orange" v-if="!item.file">
+          {{ open ? "mdi-folder-open" : "mdi-folder" }}
+        </v-icon>
+        <v-icon v-else>
+          {{ files[item] }}
+        </v-icon>
+      </template>
+      <template v-slot:append="{ item }">
+        <v-icon @click="push(item._id)"> mdi-chevron-right </v-icon>
+      </template>
+      <template slot="label" slot-scope="{ item }">
+        <!-- <a @click="push(item._id)">{{ item.name }}</a> -->
+        {{ item.name }}
+      </template>
+    </v-treeview>
+    <div class="text-center">
+      <v-btn icon color="green" @click="dialogModal('open')">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </div>
     <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5"> Создать папку </v-card-title>
@@ -72,7 +70,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -191,11 +189,17 @@ export default {
 </script>
 
 <style scoped>
-.treeview-item {
+/* .treeview-item {
   max-height: 50px;
   border-style: dashed;
+} */
+
+.sidebar-container {
+  position: relative;
 }
-.clr {
-  background-color: #e1f5fe;
+
+.sidebar {
+  background-color: #f8f8f8;
+  height: calc(100vh - 50px);
 }
 </style>
