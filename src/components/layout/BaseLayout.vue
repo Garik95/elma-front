@@ -2,10 +2,10 @@
 	<div>
 		<top-bar></top-bar>
 		<v-row no-gutters>
-			<v-col cols="3" >
+			<v-col cols="3">
 				<tree />
 			</v-col>
-			<v-col>
+			<v-col cols="9">
 				<router-view></router-view>
 			</v-col>
 		</v-row>

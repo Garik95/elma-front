@@ -115,7 +115,7 @@ export default {
 
 <style>
 #app {
-  /* background-image: url('../../assets/double-bubble-outline.png'); */
+  background-image: url('../../assets/double-bubble-outline.png');
 }
 .navigation {
   display: flex;
@@ -132,5 +132,10 @@ export default {
 
 .logo {
   width: 250px;
+}
+
+.search_list {
+  max-height: 600px;
+  overflow-y: scroll;
 }
 </style>

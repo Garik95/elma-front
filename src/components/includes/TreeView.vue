@@ -4,7 +4,7 @@
       <v-progress-circular indeterminate size="32"></v-progress-circular>
     </v-overlay>
     <v-card-title class="black--text text-h6">
-      Документы
+      Электронная библиотека
       <v-spacer />
       <v-btn icon color="green" x-small @click="getTree()">
         <v-icon>mdi-refresh</v-icon>
@@ -200,6 +200,8 @@ export default {
 
 .sidebar {
   background-color: #f8f8f8;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 65px);
+  max-height: calc(100vh - 65px);
+  overflow-y: scroll;
 }
 </style>

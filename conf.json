@@ -1,4 +1,4 @@
 {
-    "axios_url":"http://localhost:6767/api/v1/",
-    "content_server_url":"http://localhost:6767/"
+    "axios_url":"http://10.10.12.105:7777/api/v1/",
+    "content_server_url":"http://10.10.12.105:7777/"
 }

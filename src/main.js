@@ -4,7 +4,9 @@ import vuetify from './plugins/vuetify'
 import router from './router'
 import store from './store'
 import axios from 'axios';
-import conf from '../conf.json'
+import conf from '../conf.json';
+import './assets/styles/main.scss';
+import './assets/styles/materialdesignicons.min.css';
 
 axios.defaults.baseURL = conf.axios_url;
 
